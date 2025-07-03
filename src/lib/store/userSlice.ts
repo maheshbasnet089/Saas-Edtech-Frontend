@@ -1,21 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUserInitialState } from "./types";
 
 
-createSlice({
-    name : "userSlice", 
-    initialState : {
+
+const userInitialState : IUserInitialState =  {
         name : null, 
         address : null
-    }, 
+    }
+
+const userSlice = createSlice({
+    name : "userSlice", 
+    initialState : userInitialState, 
     reducers : {
         // state --> mathi ko intialState 
         // action --> trigger garda pathaune data aaune kura 
-        setName(state,action){
-            state.name = "manish"
+        setName(state:IUserInitialState,action:PayloadAction<string>){
+         state.name = action.payload
         },
 
-        setAddress(state,action){
-            state.address = "Itahari"
+        setAddress(state:IUserInitialState,action:PayloadAction<string>){
+          state.address =  action.payload
         }, 
         sethaha(state,action){
 
@@ -25,6 +29,14 @@ createSlice({
 
 
 
+
+// action 
+const {setName,setAddress,sethaha} = userSlice.actions
+export default userSlice.reducer 
+export {setName,setAddress,sethaha}
+
+dispatch(setName("manish"))
+dispatch(setAddress("itahari"))
 /*
 const [name,setName] = useState(null)
 const [age,setAge]

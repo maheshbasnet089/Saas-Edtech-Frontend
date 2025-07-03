@@ -20,7 +20,9 @@ const teacherSlice  = createSlice({
 // const setTeacherName = teacherSlice.actions.setTeacherName
 // const setTeacherPasssword  = teacherSlice.actions.setTeacherPassword
 const {setTeacherName,setTeacherPassword} = teacherSlice.actions
-setTeacherName()
+export default teacherSlice.reducer 
+export {setTeacherName,setTeacherPassword}
+// setTeacherName()
 // const teacherSlice = {
 // createSlice functions always returns an object jaha vitra actions haru automatic generate vayerw aairako huncha 
 // note : reducer ko name j xa , actions ko name pani smae tehi nahi huncha action invoke garne bitikai vitra reducer automatic call huncha 
