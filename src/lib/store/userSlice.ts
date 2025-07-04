@@ -4,7 +4,7 @@ import { IUserInitialState } from "./types";
 
 
 const userInitialState : IUserInitialState =  {
-        name : null, 
+        name : "manish", 
         address : null
     }
 
@@ -15,7 +15,7 @@ const userSlice = createSlice({
         // state --> mathi ko intialState 
         // action --> trigger garda pathaune data aaune kura 
         setName(state:IUserInitialState,action:PayloadAction<string>){
-         state.name = action.payload
+         state.name = action.payload //manish
         },
 
         setAddress(state:IUserInitialState,action:PayloadAction<string>){
@@ -35,8 +35,6 @@ const {setName,setAddress,sethaha} = userSlice.actions
 export default userSlice.reducer 
 export {setName,setAddress,sethaha}
 
-dispatch(setName("manish"))
-dispatch(setAddress("itahari"))
 /*
 const [name,setName] = useState(null)
 const [age,setAge]
