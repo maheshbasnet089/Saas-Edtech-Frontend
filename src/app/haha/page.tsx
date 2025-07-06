@@ -2,6 +2,7 @@
 "use client"
 
 import { useAppSelector } from "@/lib/store/hooks"
+import { useEffect } from "react"
 
 
 /* 
@@ -11,6 +12,8 @@ reactjs --> component --> client component --> client side rendering (SEO hudain
 
 */
 function Haha(){
+
+  
 
 const {teacherName,teacherPassword} = useAppSelector((store)=>store.teacher)
 console.log(data.teacherName,data.teacherPassword)

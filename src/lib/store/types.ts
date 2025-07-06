@@ -14,4 +14,4 @@ export interface IIncomingUserPayload{
     name : string, 
     address : string, 
     age : number
-}
+} 

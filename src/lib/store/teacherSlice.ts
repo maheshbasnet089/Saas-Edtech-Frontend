@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 
 const teacherSlice  = createSlice({
@@ -14,7 +15,8 @@ const teacherSlice  = createSlice({
         setTeacherPassword(state,action){
             state.teacherPassword = "hehe"
         }
-    }
+    }, 
+    
 })
 
 // const setTeacherName = teacherSlice.actions.setTeacherName
@@ -39,3 +41,10 @@ jaile pani action call huncha, reducer hune hainw
 
 
 */
+
+
+function registerTeacher(){
+    return async function registerTeacherThunk(){
+        axios.post("")
+    }
+}
