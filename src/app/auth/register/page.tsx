@@ -1,11 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { IRegisterData } from "./register.types"
+import { registerUser } from "@/lib/store/auth/authSlice"
+import { useAppSelector } from "@/lib/store/hooks"
+import { Status } from "@/lib/types/type"
 
 
 // user le k k type garxa tw input field ma tyo track garera store garne 
 
 
 function Register(){
+  const {institute} = useAppSelector((store)=>store.institute)
+  const {status} = useAppSelector((store)=>store.auth)
     const [data,setData] = useState<IRegisterData>({
         username : "", 
         email : "", 
@@ -22,7 +27,10 @@ function Register(){
 
     const handleRegisterSubmission = (e:FormEvent<HTMLFormElement>)=>{
         // api call 
+        registerUser(data)
+        if(status === Status.SUCCESS){
 
+        }
     }
 
  
