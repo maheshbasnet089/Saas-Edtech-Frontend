@@ -46,6 +46,7 @@ export function registerUser(data:IRegisterData){
     }
 }
 
+
 export function loginUser(data:ILoginData){
     return async function loginUserThunk(dispatch:AppDispatch){
         try {

@@ -12,6 +12,7 @@ const initialState:IInstituteInitialData = {
         institutePhoneNumber : "", 
         instituteName : ""
     }, 
+
     status : Status.LOADING
 } 
 
