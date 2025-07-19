@@ -1,15 +1,18 @@
+"use client"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { ILoginData } from "./login.types"
 import { loginUser } from "@/lib/store/auth/authSlice"
-import { useAppSelector } from "@/lib/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { Status } from "@/lib/types/type"
 
 
 
 function Login(){
-  const {status} = useAppSelector((store)=>store.auth)
+  const dispatch = useAppDispatch()
+  const {user} = useAppSelector((store)=>store.auth) // subscribe
+  console.log(user,"Data user ma yo xaaaa !!!")
 
-  const {institute} = useAppSelector((store)=>store.institute)
+  // const {institute} = useAppSelector((store)=>store.institute)
     const [data,setData] = useState<ILoginData>({
         email : "", 
         password : ""
@@ -24,13 +27,14 @@ function Login(){
         }
     
         const handleLoginSubmission = (e:FormEvent<HTMLFormElement>)=>{
+          e.preventDefault()
             // api call 
-            loginUser(data)
-            if(status == Status.SUCCESS){
-              alert("Logged in success")
-            }else if (status == Status.ERROR){
-              alert("Error happened")
-            }
+            dispatch(loginUser(data))
+            // if(status == Status.SUCCESS){
+            //   alert("Logged in success")
+            // }else if (status == Status.ERROR){
+            //   alert("Error happened")
+            // }
         }
     return(
             <div className="bg-gray-100 flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -38,7 +42,7 @@ function Login(){
     <div className="bg-white shadow-md rounded-md p-6">
       <img className="mx-auto h-12 w-auto" src="https://www.svgrepo.com/show/499664/user-happy.svg" />
       <h2 className="my-3 text-center text-3xl font-bold tracking-tight text-gray-900">
-        Sign up for an account
+        Sign In to an account
       </h2>
       <form onSubmit={handleLoginSubmission} className="space-y-6" method="POST">
         <div>
@@ -55,7 +59,7 @@ function Login(){
         </div>
         
         <div>
-          <button type="submit" className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2">Register
+          <button type="submit" className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2">Login
             Account
           </button>
         </div>

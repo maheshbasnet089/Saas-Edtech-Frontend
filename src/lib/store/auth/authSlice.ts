@@ -8,7 +8,7 @@ import { ILoginData } from "@/app/auth/login/login.types";
 const initialState:IInitialState = {
     user : {
         username : "", 
-        password : ""
+        token : ""
     }, 
     status : Status.LOADING
 }
@@ -35,6 +35,7 @@ export function registerUser(data:IRegisterData){
             const response = await API.post("auth/register",data)
             if(response.status === 201){
                 // k garne tw hami ???
+                
                 dispatch(setStatus(Status.SUCCESS))
             }else{
                 dispatch(setStatus(Status.ERROR))
@@ -52,6 +53,15 @@ export function loginUser(data:ILoginData){
         try {
             const response = await API.post("auth/login",data)
             if(response.status == 200){
+                /*
+data  : {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ1ZmY3ZTE5LTFlNjEtNDJkNS1hMWZkLTI3ZWJkMzJlNzM3YiIsImlhdCI6MTc1Mjg0OTAxNiwiZXhwIjoxNzU1NDQxMDE2fQ.7t_xVivYiOz_iD8sFZRD6TzAtqTBDW2yvgVcQh45sqs",
+        "username": "hello"
+    }
+        response.data.data =---> logged in success 
+                */
+               dispatch(setUser(response.data.data))
+               localStorage.setItem("token", response.data.data.token)
                 dispatch(setStatus(Status.SUCCESS))
             }else{
                 dispatch(setStatus(Status.ERROR))
