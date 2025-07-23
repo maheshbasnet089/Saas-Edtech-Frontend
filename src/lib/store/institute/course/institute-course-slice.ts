@@ -1,8 +1,9 @@
 import { Status } from "@/lib/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
+
 import { IInstituteCourseInitialData } from "./institute-course-type";
+import API from "@/lib/http/Api";
 
 const initialState:IInstituteCourseInitialData  = {
     status : Status.LOADING, 

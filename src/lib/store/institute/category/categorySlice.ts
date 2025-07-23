@@ -18,11 +18,20 @@ const categorySlice = createSlice({
         }, 
         setData(state:ICategoryInitialData,action:PayloadAction<ICategoryData[]>){
             state.data = action.payload
+        }, 
+        setCategoryDelete(state:ICategoryInitialData,action:PayloadAction<string>){
+            const categoryId = action.payload ; 
+            // mathi ko data vanne array ma --> categoryId ko data vako ko index k xa , index find--> delete gardinu paryo
+            const index = state.data.findIndex((category)=>category.id == categoryId) // 2
+            if(index !== -1){
+                state.data.splice(2,1)
+            }
+            
         }
     }
 })
 
-const {setStatus,setData} = categorySlice.actions
+export const {setStatus,setData,setCategoryDelete} = categorySlice.actions
 export default categorySlice.reducer 
 
 export function fetchCategories(){
@@ -48,6 +57,7 @@ export function addCategory(data:ICategoryData){
             const response = await APIWITHTOKEN.post("institute/category",data)
             if(response.status === 201){
                 dispatch(setStatus(Status.SUCCESS))
+               
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -64,6 +74,7 @@ export function deleteCategory(id:string){
             const response = await APIWITHTOKEN.delete("institute/category/" + id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
+                 dispatch(setCategoryDelete(id))
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
