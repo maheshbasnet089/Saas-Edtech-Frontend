@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 
 function InstituteCategories(){
     const {data:categories} = useAppSelector((store)=>store.category)
-    console.log(categories,"CAT")
+    const [searchedText,setSearchedText] = useState<string>("")
     const [isModalOpen,setIsModalOpen] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     useEffect(()=>{
@@ -20,6 +20,8 @@ function InstituteCategories(){
     }
     const openModal = ()=>setIsModalOpen(true)
     const closeModal = ()=>setIsModalOpen(false)
+
+    let filteredData = categories.filter((category)=>category.categoryName.includes(searchedText) || category.id.includes(searchedText) || category.categoryDescription.includes(searchedText))
     return(
     <div className="flex flex-col">
   <div className=" overflow-x-auto">
@@ -35,7 +37,7 @@ function InstituteCategories(){
           </svg>
         </div>
 
-         <input type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for category" />
+         <input onChange={(e)=>setSearchedText(e.target.value)} type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for category" />
     
      </div>
          <button onClick={openModal} className="bg-green-400 h-[34px] p-2 rounded pb-1">+ Category</button>
@@ -54,9 +56,9 @@ function InstituteCategories(){
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-300 ">
-            {categories.length > 0 && categories.map((category:ICategoryData)=>{
+            {filteredData.length > 0 && filteredData.map((category:ICategoryData)=>{
                 return(
-                      <tr key={category?.createdAt} className="bg-white transition-all duration-500 hover:bg-gray-50">
+                      <tr key={category?.id} className="bg-white transition-all duration-500 hover:bg-gray-50">
               <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> {category?.id}</td>
               <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.categoryName} </td>
               <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.categoryDescription?.substring(0,50)}</td>
