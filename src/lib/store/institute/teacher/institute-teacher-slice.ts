@@ -3,6 +3,7 @@ import { IInstituteTeacherInitialData, IInstituteTeacherInitialDataTeacher, Teac
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
 import APIWITHTOKEN from "@/lib/http/ApiWithToken";
+import { ITeacherPostData } from "../../teacher/teacherSlice.type";
 
 
 const initialState:IInstituteTeacherInitialData = {
@@ -27,10 +28,14 @@ const insituteTeacherSlice = createSlice({
 export const {setStatus,setTeacher} = insituteTeacherSlice.actions
 export default insituteTeacherSlice.reducer
 
-export function createInstituteTeacher(data:IInstituteTeacherInitialDataTeacher){
+export function createInstituteTeacher(data:ITeacherPostData){
     return async function createInstituteTeacherThunk(dispatch:AppDispatch){
         try {
-            const response = await APIWITHTOKEN.post("/institute/teacher",data )
+            const response = await APIWITHTOKEN.post("/institute/teacher",data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            } )
             if(response.status === 201){
                 dispatch(setStatus(Status.SUCCESS))
             }else{

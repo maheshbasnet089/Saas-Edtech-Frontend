@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { ICategoryAddData } from "@/lib/store/institute/category/category.types"
 import { addCategory } from "@/lib/store/institute/category/categorySlice"
 import { fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice"
+import { createInstituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice"
+import { ITeacherPostData } from "@/lib/store/teacher/teacherSlice.type"
 import { Status } from "@/lib/types/type"
 import React, { ChangeEvent, useEffect, useState } from "react"
 
@@ -14,22 +16,29 @@ interface ICloseModal{
 
 const TeacherModal:React.FC<ICloseModal> = ({closeModal}) => {
     const {courses} = useAppSelector((store)=>store.course)
+    console.log(courses,"COurse data")
     const dispatch = useAppDispatch()
     const {status} = useAppSelector((store)=>store.category)
-    const [categoryData,setCategoryData] = useState<ICategoryAddData>({
-        categoryName : "", 
-        categoryDescription : ""
+    const [teacherData,setTeacherData] = useState<ITeacherPostData>({
+        courseId : "", 
+        teacherEmail : "", 
+        teacherExperience : "", 
+        teacherJoinedDate : "", teacherName : "", 
+        teacherPhoneNumber : "", 
+        teacherPhoto : null,
+         teacherSalary : ""
     })
-    const handleCategoryChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    const handleTeacherChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement >)=>{
         const {name,value} = e.target 
-        setCategoryData({
-            ...categoryData, 
-            [name] : value
+        setTeacherData({
+            ...teacherData, 
+            //@ts-ignore
+            [name] : name === "teacherPhoto" ? e.target.files[0] : value
         })
     }
-    const handleCategorySubmission = async (e:ChangeEvent<HTMLFormElement>)=>{
+    const handleTeacherSubmission = async (e:ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault()
-        await dispatch(addCategory(categoryData))
+        await dispatch(createInstituteTeacher(teacherData))
         if(status === Status.SUCCESS){
             closeModal()
         }
@@ -49,45 +58,49 @@ const TeacherModal:React.FC<ICloseModal> = ({closeModal}) => {
         </svg>
       </button>
     </div>
-    <form onSubmit={handleCategorySubmission} className="space-y-4">
+    <form onSubmit={handleTeacherSubmission} className="space-y-4">
       <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Name</label>
-        <input name="teacherName" onChange={handleCategoryChange} type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Hari Bahadur" required />
+        <input name="teacherName" onChange={handleTeacherChange} type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Hari Bahadur" required />
       </div>
        <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Email</label>
-        <input name="teacherEmail" onChange={handleCategoryChange} type="email" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Harib@gmail.com" required />
+        <input name="teacherEmail" onChange={handleTeacherChange} type="email" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Harib@gmail.com" required />
+      </div>
+          <div>
+        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Email</label>
+        <input name="teacherPhoto" onChange={handleTeacherChange} type="file" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Harib@gmail.com" required />
       </div>
        <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Phone Number</label>
-        <input name="teacherPhoneNumber" onChange={handleCategoryChange} type="email" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="98xxxxxxxx" required />
+        <input name="teacherPhoneNumber" onChange={handleTeacherChange} type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="98xxxxxxxx" required />
       </div>
       <div className="flex">
            <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Experience</label>
-        <input name="teacherExperience" onChange={handleCategoryChange} type="email" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="2+ months, years " required />
+        <input name="teacherExperience" onChange={handleTeacherChange} type="text" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="2+ months, years " required />
       </div>
          <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Joined Date</label>
-        <input name="teacherPhoneNumber" onChange={handleCategoryChange} type="date" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="98xxxxxxxx" required />
+        <input name="teacherJoinedDate" onChange={handleTeacherChange} type="date" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="98xxxxxxxx" required />
       </div>
       </div>
      <div className="flex">
              <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Salary</label>
-        <input name="teacherSalary" onChange={handleCategoryChange} type="text" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="30k per month" required />
+        <input name="teacherSalary" onChange={handleTeacherChange} type="text" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="30k per month" required />
       </div>
            <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Course</label>
+        <select onChange={handleTeacherChange} name="courseId" id="">
 {
     courses.length > 0 && courses.map((course)=>{
         return(
-            <select name="courseId" id="">
                 <option value={course.id}>{course.courseName}</option>
-            </select>
-        )
-    })
+              )
+            })
 }
+            </select>
       </div>
      </div>
       <div className="flex justify-end gap-3">

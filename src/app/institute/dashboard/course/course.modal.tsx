@@ -28,13 +28,15 @@ const CourseModal:React.FC<ICloseModal> = ({closeModal}) => {
         coursePrice : "", 
         courseThumbnail : null
     })
-    const handleCourseChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-        const {name,value} = e.target 
+    const handleCourseChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>)=>{
+        const {name,value} = e.target // courseThumnail, "Thank you for post... "
         setCourseData({
             ...courseData, 
-            [name] : value
+            // @ts-ignore
+            [name] : name === "courseThumbnail" ? e.target.files[0] : value
         })
     }
+
     const handleCourseSubmission = async (e:ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault()
     await dispatch(createInstituteCourse(courseData))
@@ -83,7 +85,7 @@ const CourseModal:React.FC<ICloseModal> = ({closeModal}) => {
      <div className="flex">
              <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Category</label>
-                <select name="courseId" id="">
+                <select name="categoryId" onChange={handleCourseChange} id="">
 {
      data.length > 0 && data.map((category)=>{
         return(
@@ -95,7 +97,7 @@ const CourseModal:React.FC<ICloseModal> = ({closeModal}) => {
 </div>
            <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Level</label>
-        <select name="courseId" id="">
+        <select onChange={handleCourseChange} name="courseLevel" id="">
 {
      courseLevel.map((cl)=>{
         return(
@@ -108,7 +110,7 @@ const CourseModal:React.FC<ICloseModal> = ({closeModal}) => {
      </div>
       <div>
         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Description</label>
-        <textarea name="categoryDescription" onChange={handleCourseChange} id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="web_development is related to web..." required />
+        <textarea name="courseDescription" onChange={handleCourseChange} id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="web_development is related to web..." required />
       </div>
       <div className="flex justify-end gap-3">
         <button onClick={closeModal} id="cancelButton" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">

@@ -47,7 +47,11 @@ export default instituteCourseSlice.reducer
 export function createInstituteCourse(data:ICoursePostData){
     return async function createInstituteCourseThunk(dispatch:AppDispatch){
         try {
-            const response = await APIWITHTOKEN.post("/institute/course",data)
+            const response = await APIWITHTOKEN.post("/institute/course",data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            })
             if(response.status === 201){
                 dispatch(setStatus(Status.SUCCESS))
             }else{
@@ -65,7 +69,7 @@ export function fetchInstituteCourse(){
     return async function fetchInstituteCourseThunk(dispatch:AppDispatch){
         try {
             const response = await APIWITHTOKEN.get("/institute/course")
-            if(response.status === 201){
+            if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 response.data.data.length > 0 && dispatch(setCourse(response.data.data))
             }else{

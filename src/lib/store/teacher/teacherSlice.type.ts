@@ -11,3 +11,12 @@ export interface IInitialTeacherData{
     teacher : ITeacher, 
     status   : Status
 }
+
+export interface ITeacherPostData extends ITeacher{
+    teacherExperience : string, 
+    teacherJoinedDate : string, 
+    courseId : string , 
+    teacherSalary : string, 
+    teacherPhoto : File | null,
+
+}
