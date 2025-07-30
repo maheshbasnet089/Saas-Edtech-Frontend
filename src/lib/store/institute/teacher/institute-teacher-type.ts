@@ -14,6 +14,7 @@ interface IInstituteTeacherInitialDataTeacherCourse{
 }
 
 export interface IInstituteTeacherInitialDataTeacher{
+id : string,
 teacherName : string | null,
 teacherEmail :string | null ,
 teacherPhoneNumber : string,
